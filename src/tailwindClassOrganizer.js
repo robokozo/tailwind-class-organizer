@@ -6,21 +6,23 @@ function isObject(o) {
     return typeof o === "object" && o !== null
 }
 
+function getCleanTerms(a = []) {
+    return a.split(" ").filter((x) => x != "")
+}
+
 function getClasses(key, value, parentKeys) {
     if (isString(value)) {
+        const cleanTerms = getCleanTerms(value)
+        let fullKeyPath = [...parentKeys, key].join(":")
         if (key === "default") {
             if (parentKeys.length === 0) {
                 //this is the special exception for the root default
-                return value.split(" ")
+                return cleanTerms
             }
-            const fullKeyPath = [...parentKeys].join(":")
-            const split = value.split(" ")
-            return split.map((x) => `${fullKeyPath}:${x}`)
-        } else {
-            const split = value.split(" ")
-            const fullKeyPath = [...parentKeys, key].join(":")
-            return split.map((x) => `${fullKeyPath}:${x}`)
+
+            fullKeyPath = [...parentKeys].join(":")
         }
+        return cleanTerms.map((x) => `${fullKeyPath}:${x}`)
     } else if (isObject(value)) {
         return processConfig(value, [...parentKeys, key])
     } else {
@@ -30,7 +32,7 @@ function getClasses(key, value, parentKeys) {
 
 function processConfig(config, parentKeys = []) {
     if (!isObject(config)) {
-        return config.toString().split(" ")
+        return getCleanTerms(config.toString().trim())
     }
 
     let combinedClasses = []
