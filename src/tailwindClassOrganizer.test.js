@@ -35,5 +35,11 @@ describe("tailwindClassOrganizer", () => {
 
             expect(response).toEqual(["lg:hover:h-10", "lg:hover:w-10", "lg:hover:bg-red-500"])
         })
+
+        it("passing a string should return an array of classes", () => {
+            const response = convertToTailwindClassesArray("p-2 text-white")
+
+            expect(response).toEqual(["p-2", "text-white"])
+        })
     })
 })

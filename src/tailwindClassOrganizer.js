@@ -30,7 +30,7 @@ function getClasses(key, value, parentKeys) {
 
 function processConfig(config, parentKeys = []) {
     if (!isObject(config)) {
-        return config
+        return config.toString().split(" ")
     }
 
     let combinedClasses = []
