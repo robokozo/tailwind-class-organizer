@@ -17,7 +17,7 @@ import { vueDirective } from "@robokozo/tailwind-class-organizer"
 
 const app = createApp(App)
 
-app.directive("tw", vueDirective)
+app.directive("tw", vueDirective())
 
 app.mount("#app")
 ```

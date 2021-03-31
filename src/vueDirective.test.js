@@ -18,8 +18,10 @@ describe("vueDirective", () => {
             value: { md: "p-1", lg: "p-2" },
         }
 
+        const directive = vueDirective()
+
         //beforeMount
-        vueDirective.beforeMount(el, bindingAdd)
+        directive.beforeMount(el, bindingAdd)
 
         expect(el.dataset.previousValues).toEqual("md:p-1,lg:p-2")
         expect(el.classList.add).toHaveBeenCalledWith("md:p-1", "lg:p-2")
@@ -29,9 +31,49 @@ describe("vueDirective", () => {
         const bindingUpdate = {
             value: { md: "p-3", lg: "p-4" },
         }
-        vueDirective.beforeUpdate(el, bindingUpdate)
+        directive.beforeUpdate(el, bindingUpdate)
 
         expect(el.dataset.previousValues).toEqual("md:p-3,lg:p-4")
+        expect(el.classList.add).toHaveBeenCalledWith("md:p-3", "lg:p-4")
+        expect(el.classList.remove).toHaveBeenCalledWith("md:p-1", "lg:p-2")
+    })
+
+    it("overriding default options should work", () => {
+        //Arrange
+        const el = {
+            dataset: {
+                thisIsFake: null,
+            },
+            classList: {
+                add: jest.fn(),
+                has: jest.fn(() => true),
+                remove: jest.fn(),
+            },
+        }
+
+        const bindingAdd = {
+            value: { md: "p-1", lg: "p-2" },
+        }
+
+        const directive = vueDirective({
+            delimiter: "~",
+            datasetProperty: "thisIsFake",
+        })
+
+        //beforeMount
+        directive.beforeMount(el, bindingAdd)
+
+        expect(el.dataset.thisIsFake).toEqual("md:p-1~lg:p-2")
+        expect(el.classList.add).toHaveBeenCalledWith("md:p-1", "lg:p-2")
+        expect(el.classList.remove).not.toHaveBeenCalled()
+
+        //beforeUpdate
+        const bindingUpdate = {
+            value: { md: "p-3", lg: "p-4" },
+        }
+        directive.beforeUpdate(el, bindingUpdate)
+
+        expect(el.dataset.thisIsFake).toEqual("md:p-3~lg:p-4")
         expect(el.classList.add).toHaveBeenCalledWith("md:p-3", "lg:p-4")
         expect(el.classList.remove).toHaveBeenCalledWith("md:p-1", "lg:p-2")
     })
