@@ -6,8 +6,8 @@ function isObject(o) {
     return typeof o === "object" && o !== null
 }
 
-function getCleanTerms(a) {
-    return a
+function getCleanTerms(terms) {
+    return terms
         .trim()
         .split(" ")
         .filter((x) => x != "")
