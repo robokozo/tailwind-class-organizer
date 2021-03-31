@@ -6,8 +6,11 @@ function isObject(o) {
     return typeof o === "object" && o !== null
 }
 
-function getCleanTerms(a = []) {
-    return a.split(" ").filter((x) => x != "")
+function getCleanTerms(a) {
+    return a
+        .trim()
+        .split(" ")
+        .filter((x) => x != "")
 }
 
 function getClasses(key, value, parentKeys) {
@@ -32,7 +35,7 @@ function getClasses(key, value, parentKeys) {
 
 function processConfig(config, parentKeys = []) {
     if (!isObject(config)) {
-        return getCleanTerms(config.toString().trim())
+        return getCleanTerms(config.toString())
     }
 
     let combinedClasses = []
