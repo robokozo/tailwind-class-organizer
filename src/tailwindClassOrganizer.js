@@ -14,7 +14,8 @@ function getClasses(key, value, parentKeys) {
                 return value.split(" ")
             }
             const fullKeyPath = [...parentKeys].join(":")
-            return [`${fullKeyPath}:${value}`]
+            const split = value.split(" ")
+            return split.map((x) => `${fullKeyPath}:${x}`)
         } else {
             const split = value.split(" ")
             const fullKeyPath = [...parentKeys, key].join(":")
