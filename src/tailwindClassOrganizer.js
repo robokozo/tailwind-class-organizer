@@ -7,10 +7,7 @@ function isObject(o) {
 }
 
 function getCleanTerms(terms) {
-    return terms
-        .trim()
-        .split(" ")
-        .filter((x) => x != "")
+    return terms.replace(/\s+/g, " ").trim().split(" ")
 }
 
 function getClasses(key, value, parentKeys) {
