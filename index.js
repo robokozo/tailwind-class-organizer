@@ -1,5 +1,2 @@
-import { convertToTailwindClassesArray } from "./src/tailwindClassOrganizer"
-import vueDirective from "./src/vueDirective"
-
-export const convertToTailwindClassesArray
-export const vueDirective
+export { convertToTailwindClassesArray } from "./src/tailwindClassOrganizer"
+export { default as vueDirective } from "./src/vueDirective"
